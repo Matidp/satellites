@@ -157,15 +157,15 @@ const SatelliteSchema = new Schema({
             'default': null
         },
         'TLE_LINE0': {
-            'type': Number,
+            'type': String,
             'default': null
         },
         'TLE_LINE1': {
-            'type': Number,
+            'type': String,
             'default': null
         },
         'TLE_LINE2': {
-            'type': Number,
+            'type': String,
             'default': null
         }
     },
@@ -191,10 +191,6 @@ const SatelliteSchema = new Schema({
     },
     'velocity_kms': {
         'type': Number,
-        'default': null
-    },
-    'id': {
-        'type': String,
         'default': null
     }
 })

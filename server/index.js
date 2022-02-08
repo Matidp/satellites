@@ -12,7 +12,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Routes
-app.use('/api/satellites', require('./routes/satellites.routes'));
+app.use('/api/satellite', require('./routes/satellite.routes'));
 
 // Starting the server
 app.listen(app.get('port'), () => {
