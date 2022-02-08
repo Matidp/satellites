@@ -17,10 +17,35 @@ http://localhost:3000/api/satellite
 ```
 ```js
 satelliteCtrl.getSatellites = async (req, res) => {
-    const satellites = await Satellite.find();
-    res.json(satellites);
+    try {
+        const satellites = await Satellite.find();
+        res.json(satellites);
+    } catch (error) {
+        console.log("Can't get all satellites because ", error)
+    }
 }
 ```
+
+### Search by Name
+This endpoint will return a satellite with the name provided or just None if there isn't a satellite with the name provided.
+Just replace "<name>" with the name
+```
+http://localhost:3000/api/satellite/<name>
+```
+```js
+satelliteCtrl.getSatellite = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const satellite = await Satellite.find({
+            'spaceTrack.OBJECT_NAME': { $regex: new RegExp("^" + name.toLowerCase(), "i")},
+        })
+        res.json(satellite)
+    } catch (error) {
+        console.log(error)
+    }
+}
+```
+
 
 ## what do you need
 
