@@ -48,12 +48,14 @@ satelliteCtrl.getSatelliteWithinDistance = async (req, res) => {
                 location: {
                    $nearSphere: {
                       $geometry: {
-                         type : "Point",
+                         type : 'Point',
                          coordinates : [longitude, latitude]
                       },
                       $maxDistance: distance
                     }
-                }
+                },
+                'longitude': {$ne: null},
+                'latitude': {$ne: null}
             }
         )
         res.json(satellites)

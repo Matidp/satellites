@@ -46,12 +46,44 @@ satelliteCtrl.getSatellite = async (req, res) => {
 }
 ```
 
+### All satellites that are within a maximum distance d from (l1, l2)
+```
+http://localhost:3000/api/satellite/withindistance?l1=<latitude>&l2=<longitude>&d=<distance in meters>
+```
+```js
+satelliteCtrl.getSatelliteWithinDistance = async (req, res) => {
+    try {
+        const latitude = req.query.l1
+        const longitude = req.query.l2
+        const distance = req.query.d
+        
+        const satellites = await Satellite.find(
+            {
+                location: {
+                   $nearSphere: {
+                      $geometry: {
+                         type : 'Point',
+                         coordinates : [longitude, latitude]
+                      },
+                      $maxDistance: distance
+                    }
+                },
+                'longitude': {$ne: null},
+                'latitude': {$ne: null}
+            }
+        )
+        res.json(satellites)
+    } catch (error) {
+        console.log(error)
+    }
+}
+```
 
 ## what do you need
 
 * clone the repository
-* [Mongodb](https://www.mongodb.com/) installed
-* [Nodejs](https://nodejs.org/) installed
+* [Mongodb](https://www.mongodb.com/) installed (v4.4.1)
+* [Nodejs](https://nodejs.org/) installed (v15.14.0)
 * run in the shell `npm install`
 * run in the shell `npm start`
 * use the endpoints with postman or just with the browser. 
