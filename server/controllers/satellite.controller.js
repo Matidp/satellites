@@ -29,12 +29,36 @@ satelliteCtrl.createSatellite = async (req, res) => {
     try {
         const satellite = new Satellite(req.body)
         await satellite.save()
-        console.log(satellite);
         res.json({
             'status': 'satellite saved'
         })
     } catch (error) {
-        console.log("can't save satellite because ", error)
+        console.log("Can't save satellite because ", error)
+    }
+}
+
+satelliteCtrl.getSatelliteWithinDistance = async (req, res) => {
+    try {
+        const latitude = req.query.l1
+        const longitude = req.query.l2
+        const distance = req.query.d
+        
+        const satellites = await Satellite.find(
+            {
+                location: {
+                   $nearSphere: {
+                      $geometry: {
+                         type : "Point",
+                         coordinates : [longitude, latitude]
+                      },
+                      $maxDistance: distance
+                    }
+                }
+            }
+        )
+        res.json(satellites)
+    } catch (error) {
+        console.log(error)
     }
 }
 

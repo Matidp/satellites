@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const SatelliteSchema = new Schema({
+const satelliteSchema = new Schema({
     'spaceTrack': {
         'CCSDS_OMM_VERS': {
             'type': String,
@@ -192,7 +192,20 @@ const SatelliteSchema = new Schema({
     'velocity_kms': {
         'type': Number,
         'default': null
+    },
+    'location': {
+        'type': {
+            'type': 'String',
+            'default': 'Point'
+        },
+        'coordinates': {
+            'type': [Number],
+            'default': [0, 0]
+        }
     }
 })
 
-module.exports = mongoose.model('Satellite', SatelliteSchema);
+satelliteSchema.index({
+    'location': '2dsphere'
+});
+module.exports = mongoose.model('Satellite', satelliteSchema);
