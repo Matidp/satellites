@@ -5,6 +5,6 @@ const router = express.Router();
 router.get("/withindistance", satelliteCtrl.getSatelliteWithinDistance);
 router.get("/:name", satelliteCtrl.getSatellite);
 router.get("/", satelliteCtrl.getSatellites);
-router.post("/", satelliteCtrl.createSatellite);
+router.post("/", satelliteCtrl.createMultipleSatellites);
 
 module.exports = router;

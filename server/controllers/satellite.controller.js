@@ -12,7 +12,7 @@ satelliteCtrl.getSatellite = async (req, res) => {
     });
     res.json(satellite);
   } catch (error) {
-    console.log(error);
+    res.status(404).send("Not Found");
   }
 };
 
@@ -21,7 +21,7 @@ satelliteCtrl.getSatellites = async (req, res) => {
     const satellites = await Satellite.find();
     res.json(satellites);
   } catch (error) {
-    console.log("Can't get all satellites because ", error);
+    res.status(404).send("Not Found");
   }
 };
 
@@ -33,7 +33,22 @@ satelliteCtrl.createSatellite = async (req, res) => {
       status: "satellite saved",
     });
   } catch (error) {
-    console.log("Can't save satellite because ", error);
+    res.status(500).send("Server error cannot create");
+  }
+};
+
+satelliteCtrl.createMultipleSatellites = (req, res) => {
+  try {
+    satellites = req.body;
+    satellites.forEach(async element => {
+      let satellite = new Satellite(element);
+      await satellite.save();
+    });
+    res.json({
+      status: "satellites saved",
+    });
+  } catch (error) {
+    res.status(500).send("Server error cannot create");
   }
 };
 
@@ -58,7 +73,7 @@ satelliteCtrl.getSatelliteWithinDistance = async (req, res) => {
     });
     res.json(satellites);
   } catch (error) {
-    console.log(error);
+    res.status(404).send("Not Found");
   }
 };
 
