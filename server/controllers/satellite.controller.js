@@ -16,6 +16,20 @@ satelliteCtrl.getSatellite = async (req, res) => {
   }
 };
 
+satelliteCtrl.getSatelliteFromDate = async (req, res) => {
+  try {
+    const date = req.query.date
+    const satellite = await Satellite.find({
+      "spaceTrack.CREATION_DATE" : {
+        $gte: new Date(date)
+      }
+    });
+    res.json(satellite);
+  } catch (error) {
+    res.status(404).send("Not Found");
+  }
+}
+
 satelliteCtrl.getSatellites = async (req, res) => {
   try {
     const satellites = await Satellite.find();
